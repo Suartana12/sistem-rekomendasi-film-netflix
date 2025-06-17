@@ -38,23 +38,23 @@ Pada tahap ini, akan dilakukan eksplorasi mendalam terhadap dataset Netflix Movi
 
 **Sumber Dataset:** Dataset ini diperoleh dari platform Kaggle dan dapat diakses melalui tautan berikut: [Netflix Movies and TV Shows](https://www.kaggle.com/datasets/shivamb/netflix-shows).
 
-Dataset ini terdiri dari satu file CSV yang berisi 8807 baris data dan 12 kolom. Dari inspeksi awal, diketahui bahwa beberapa kolom seperti 'director', 'cast', dan 'country' memiliki nilai yang hilang (missing values). Fitur-fitur utama seperti 'title', 'listed_in' (sebagai genre), dan 'description' memiliki data yang lengkap dan akan menjadi dasar utama dalam pembuatan sistem rekomendasi.
+Dataset ini terdiri dari satu file CSV yang berisi 8807 baris data dan 12 kolom. Dari inspeksi awal, diketahui bahwa beberapa kolom seperti `director`, `cast`, dan `country` memiliki nilai yang hilang (missing values). Fitur-fitur utama seperti `title`, `listed_in` (sebagai genre), dan 'description' memiliki data yang lengkap dan akan menjadi dasar utama dalam pembuatan sistem rekomendasi.
 
 ### Deskripsi Variabel
 Berikut adalah deskripsi untuk setiap variabel yang relevan dalam proyek ini:
 
-* 'show_id': Nomor identifikasi unik untuk setiap judul.
-* 'type': Tipe konten (Movie atau TV Show).
-* 'title': Judul konten.
-* 'director': Nama sutradara.
-* 'cast': Daftar pemeran utama.
-* 'country': Negara tempat produksi.
-* 'date_added': Tanggal konten ditambahkan ke Netflix.
-* 'release_year': Tahun rilis konten.
-* 'rating': Klasifikasi rating usia (misalnya, TV-MA, PG-13).
-* 'duration': Durasi film (dalam menit) atau jumlah season (untuk TV Show).
-* 'listed_in': Kategori atau genre konten.
-* 'description': Sinopsis atau ringkasan singkat dari alur cerita.
+* `show_id`: Nomor identifikasi unik untuk setiap judul.
+* `type`: Tipe konten (Movie atau TV Show).
+* `title`: Judul konten.
+* `director`: Nama sutradara.
+* `cast`: Daftar pemeran utama.
+* `country`: Negara tempat produksi.
+* `date_added`: Tanggal konten ditambahkan ke Netflix.
+* `release_year`: Tahun rilis konten.
+* `rating`: Klasifikasi rating usia (misalnya, TV-MA, PG-13).
+* `duration`: Durasi film (dalam menit) atau jumlah season (untuk TV Show).
+* `listed_in`: Kategori atau genre konten.
+* `description`: Sinopsis atau ringkasan singkat dari alur cerita.
 
 ### Exploratory Data Analysis (EDA)
 **Distribusi Genre Konten**
@@ -68,11 +68,11 @@ Berikut adalah deskripsi untuk setiap variabel yang relevan dalam proyek ini:
 ## Data Preparation
 Pada tahap ini, dilakukan proses persiapan data untuk mengubah data mentah menjadi format yang bersih dan siap digunakan untuk pemodelan. Proses ini sangat penting untuk memastikan kualitas dan relevansi fitur yang akan diolah oleh model. Teknik-teknik yang diterapkan meliputi:
 
-1. **Penanganan Nilai yang Hilang:** Integritas data dipastikan dengan mengisi nilai yang hilang pada kolom-kolom kunci seperti 'director' dan 'cast' dengan string kosong. Pendekatan ini mencegah error pada tahap pemrosesan teks tanpa mengurangi jumlah data.
+1. **Penanganan Nilai yang Hilang:** Integritas data dipastikan dengan mengisi nilai yang hilang pada kolom-kolom kunci seperti `director` dan `cast` dengan string kosong. Pendekatan ini mencegah error pada tahap pemrosesan teks tanpa mengurangi jumlah data.
 
 2. **Rekayasa dan Ekstraksi Fitur:** Untuk proyek ini, data difokuskan hanya pada tipe 'Movie'. Fitur-fitur teks yang relevan seperti genre, deskripsi, pemeran, dan sutradara dipilih untuk digabungkan.
 
-3. **Pembersihan dan Unifikasi Fitur:** Untuk memastikan setiap entitas (seperti nama orang atau genre) diperlakukan sebagai satu token unik, spasi di dalamnya dihilangkan (contoh: 'David Fincher' menjadi 'DavidFincher'). Selanjutnya, semua fitur teks yang relevan—deskripsi, genre, pemeran, dan sutradara—digabungkan menjadi satu kolom komprehensif yang disebut 'tags'. Kolom 'tags' ini berfungsi sebagai representasi konten holistik untuk setiap film, yang akan menjadi dasar utama bagi model Content-Based Filtering.
+3. **Pembersihan dan Unifikasi Fitur:** Untuk memastikan setiap entitas (seperti nama orang atau genre) diperlakukan sebagai satu token unik, spasi di dalamnya dihilangkan (contoh: 'David Fincher' menjadi 'DavidFincher'). Selanjutnya, semua fitur teks yang relevan—deskripsi, genre, pemeran, dan sutradara—digabungkan menjadi satu kolom komprehensif yang disebut `tags`. Kolom `tags` ini berfungsi sebagai representasi konten holistik untuk setiap film, yang akan menjadi dasar utama bagi model Content-Based Filtering.
 
 Setelah melalui seluruh tahapan di atas, dataset kini telah siap untuk dilanjutkan ke proses pemodelan.
 
@@ -82,14 +82,14 @@ Pada tahap ini, dilakukan pengembangan model sistem rekomendasi dengan pendekata
 ### Model 1: Content-Based Filtering dengan TF-IDF
 Model pertama memanfaatkan teknik TF-IDF (Term Frequency-Inverse Document Frequency) untuk proses vektorisasi.
 
-1. **Proses:** Kolom tags yang berisi gabungan semua fitur teks diubah menjadi matriks vektor numerik. TF-IDF memberikan bobot pada setiap kata berdasarkan frekuensinya dalam sebuah film dan keunikannya di seluruh koleksi film. Setelah itu, metrik Cosine Similarity digunakan untuk menghitung skor kemiripan antara setiap pasang vektor film.
+1. **Proses:** Kolom `tags` yang berisi gabungan semua fitur teks diubah menjadi matriks vektor numerik. TF-IDF memberikan bobot pada setiap kata berdasarkan frekuensinya dalam sebuah film dan keunikannya di seluruh koleksi film. Setelah itu, metrik Cosine Similarity digunakan untuk menghitung skor kemiripan antara setiap pasang vektor film.
 
 2. **Tujuan:** Model ini bertujuan menghasilkan rekomendasi berdasarkan kemiripan konten yang sudah dibobotkan, di mana kata-kata yang lebih spesifik dan unik memiliki pengaruh lebih besar.
 
 ### Model 2: Content-Based Filtering dengan CountVectorizer
 Sebagai alternatif, model kedua dikembangkan menggunakan teknik CountVectorizer (atau Bag of Words).
 
-1. **Proses:** Sama seperti model pertama, kolom tags diubah menjadi matriks vektor. Namun, CountVectorizer hanya menghitung frekuensi kemunculan setiap kata tanpa mempertimbangkan bobot keunikannya. Matriks kemiripan kemudian dihitung menggunakan Cosine Similarity.
+1. **Proses:** Sama seperti model pertama, kolom `tags` diubah menjadi matriks vektor. Namun, CountVectorizer hanya menghitung frekuensi kemunculan setiap kata tanpa mempertimbangkan bobot keunikannya. Matriks kemiripan kemudian dihitung menggunakan Cosine Similarity.
 
 2. **Tujuan:** Model ini diimplementasikan sebagai pembanding untuk menganalisis bagaimana representasi fitur yang lebih sederhana (hanya berdasarkan frekuensi) memengaruhi hasil akhir rekomendasi.
 
@@ -137,7 +137,7 @@ Pendekatan Content-Based Filtering memiliki beberapa kelebihan dan kekurangan se
 Evaluasi model dilakukan secara kuantitatif menggunakan metrik Precision.
 
 ### Formula dan Cara Kerja
-* **Formula:** 'Precision = (Jumlah Film Rekomendasi yang Relevan) / (Jumlah Total Film yang Direkomendasikan)'
+* **Formula:** `Precision = (Jumlah Film Rekomendasi yang Relevan) / (Jumlah Total Film yang Direkomendasikan)`
 
 * **Definisi Relevan:** Sebuah film rekomendasi dianggap "relevan" jika memiliki setidaknya satu genre yang sama dengan film acuan.
 
@@ -151,4 +151,4 @@ Berdasarkan pengujian pada film 'The Social Network' (genre: Dramas), diperoleh 
 Nilai 1.00 ini berarti bahwa 5 dari 5 film yang direkomendasikan oleh masing-masing model terbukti relevan. Hasil ini secara kuantitatif membuktikan bahwa kedua model mampu memberikan rekomendasi dengan tingkat presisi yang sangat tinggi.
 
 ## Kesimpulan
-Proyek ini telah berhasil mengembangkan sistem rekomendasi film menggunakan pendekatan Content-Based Filtering dengan dua teknik vektorisasi berbeda.  Kedua model menunjukkan kinerja yang kuat dengan nilai presisi 100% pada kasus uji, membuktikan efektivitasnya dalam merekomendasikan film berdasarkan kemiripan konten. Ditemukan juga bahwa rekayasa fitur yang cermat (pembuatan kolom 'tags') memiliki dampak yang sangat signifikan terhadap hasil. Dengan demikian, tujuan proyek untuk menciptakan dan membandingkan model rekomendasi berdasarkan konten telah tercapai dengan baik.
+Proyek ini telah berhasil mengembangkan sistem rekomendasi film menggunakan pendekatan Content-Based Filtering dengan dua teknik vektorisasi berbeda.  Kedua model menunjukkan kinerja yang kuat dengan nilai presisi 100% pada kasus uji, membuktikan efektivitasnya dalam merekomendasikan film berdasarkan kemiripan konten. Ditemukan juga bahwa rekayasa fitur yang cermat (pembuatan kolom `tags`) memiliki dampak yang sangat signifikan terhadap hasil. Dengan demikian, tujuan proyek untuk menciptakan dan membandingkan model rekomendasi berdasarkan konten telah tercapai dengan baik.
