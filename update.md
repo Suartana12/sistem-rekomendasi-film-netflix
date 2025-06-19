@@ -38,11 +38,11 @@ Perbandingan kedua pendekatan ini akan memberikan wawasan mengenai teknik repres
 
 Tahap ini berfokus pada eksplorasi dan pemahaman Netflix Movies and TV Shows Dataset yang menjadi dasar proyek ini.
 
-Sumber Dataset: Dataset ini bersumber dari Kaggle dan dapat diakses melalui tautan: Netflix Movies and TV Shows Dataset.[UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/Restaurant+%26+consumer+data)
+Sumber Dataset: Dataset ini bersumber dari Kaggle dan dapat diakses melalui tautan: [Netflix Movies and TV Shows Dataset]([https://archive.ics.uci.edu/ml/datasets/Restaurant+%26+consumer+data](https://www.kaggle.com/datasets/shivamb/netflix-shows)).
 
 Dataset awal terdiri dari 8807 data konten Netflix dengan 12 fitur. Setelah dilakukan pemfilteran untuk hanya menggunakan data film, dataset yang diolah memiliki 6131 baris. Analisis awal menunjukkan adanya nilai yang hilang (missing values) pada beberapa fitur seperti `director` dan `cast`, yang akan ditangani pada tahap persiapan data.
 
-**Variabel-variabel** pada Restaurant UCI dataset adalah sebagai berikut:
+**Variabel-variabel** pada Netflix Movies and TV Shows dataset adalah sebagai berikut:
 - `show_id`: ID unik untuk setiap konten.
 - `type`: Jenis konten (Movie atau TV Show).
 - `title`: Judul film atau acara TV.
@@ -55,13 +55,13 @@ Dataset awal terdiri dari 8807 data konten Netflix dengan 12 fitur. Setelah dila
 
 - Distribusi Genre Konten di Netflix
 
-![Top 15 Genre Konten di Netflix](img/nama_file_gambar.png)
+![Top 15 Genre Konten di Netflix](img/Top-15.png)
 
 Insight: Visualisasi di atas menunjukkan bahwa kategori International Movies dan Dramas mendominasi katalog Netflix, yang mengindikasikan strategi konten yang berfokus pada pasar global dan cerita berbasis narasi.
 
 - Distribusi Konten Berdasarkan Rating Usia
 
-![Distribusi Konten Berdasarkan Rating Usia](img/nama_file_gambar.png)
+![Distribusi Konten Berdasarkan Rating Usia](img/rating-usia.png)
 
 Insight: Sebagian besar konten memiliki rating TV-MA (Dewasa) dan TV-14 (Remaja 14+), yang menyiratkan bahwa target audiens utama platform ini adalah kalangan dewasa dan remaja.
 
@@ -128,7 +128,7 @@ Kedua model diuji untuk memberikan rekomendasi film yang mirip dengan 'The Socia
 Untuk mengukur performa kedua model secara kuantitatif, metrik Precision digunakan.
 
 **Formula dan Cara Kerja**
-- Formula: ![precision](img/nama_file_gambar.png)
+- Formula: ![precision](img/precision.png)
 - Definisi Relevansi: Dalam konteks proyek ini, sebuah film yang direkomendasikan dianggap "relevan" jika memiliki minimal satu genre yang sama dengan film yang menjadi acuan. Metrik ini dipilih karena selaras dengan tujuan bisnis untuk memberikan rekomendasi yang tematik dan sesuai dengan preferensi genre pengguna.
 
 **Hasil Evaluasi**
