@@ -1,154 +1,143 @@
-# Laporan Proyek Machine Learning - Sistem Rekomendasi Film Netflix
-Putu Yoga Suartana - MC298D5Y2265
+# Laporan Proyek Machine Learning: Sistem Rekomendasi Film Netflix - Putu Yoga Suartana
 
 ## Project Overview
-Seiring dengan pesatnya perkembangan teknologi digital, platform streaming film seperti Netflix, Disney+, dan lainnya telah menjadi sumber hiburan utama bagi jutaan orang di seluruh dunia.  Platform ini menyediakan katalog berisi ribuan hingga puluhan ribu judul film dan serial TV, yang ironisnya dapat menimbulkan masalah baru bagi pengguna: paradox of choice atau kebingungan dalam memilih tontonan.  Ketika dihadapkan pada terlalu banyak pilihan, pengguna sering kali kesulitan untuk memutuskan apa yang akan ditonton, yang dapat mengurangi kepuasan dan pengalaman mereka. 
 
-Untuk mengatasi masalah ini, sistem rekomendasi menjadi komponen krusial yang tidak terpisahkan dari layanan streaming.  Sistem ini bertujuan untuk mempersonalisasi pengalaman pengguna dengan menyarankan konten yang paling relevan bagi setiap individu.  Pentingnya sistem rekomendasi ini telah terbukti secara bisnis. Sebagai contoh, penelitian yang dipublikasikan oleh eksekutif Netflix, Carlos A. Gomez-Uribe dan Neil Hunt, menyatakan bahwa lebih dari 80% jam tayang di Netflix didorong oleh sistem rekomendasi mereka.  Hal ini menunjukkan bahwa rekomendasi yang akurat dan relevan tidak hanya meningkatkan kepuasan pengguna tetapi juga secara langsung berkontribusi pada retensi pelanggan dan keberhasilan platform. 
+Di era digital saat ini, layanan streaming seperti Netflix telah mengubah cara kita mengonsumsi hiburan. Namun, dengan katalog yang berisi ribuan judul, pengguna sering kali menghadapi kesulitan untuk menemukan tontonan yang sesuai dengan selera mereka, sebuah fenomena yang dikenal sebagai paradox of choice. Keterlibatan dan retensi pengguna pada platform ini sangat bergantung pada kemampuan platform untuk menyajikan konten yang relevan secara personal.
 
-Proyek akhir ini bertujuan untuk merancang dan membangun model sistem rekomendasi film menggunakan dataset publik.  Dengan menerapkan teknik machine learning yang telah dipelajari, proyek ini akan mengeksplorasi dua pendekatan utama dalam sistem rekomendasi untuk menghasilkan daftar tontonan yang dipersonalisasi.
+Sistem rekomendasi adalah solusi teknologi yang menjawab tantangan ini. Menurut riset dari eksekutif Netflix, sistem ini menjadi motor penggerak lebih dari 80% total jam tayang di platform mereka, yang menggarisbawahi nilai bisnisnya yang sangat signifikan. Rekomendasi yang efektif tidak hanya meningkatkan kepuasan tetapi juga menjadi pilar utama dalam strategi bisnis layanan streaming.
 
-**Referensi:**
+Proyek ini berfokus pada perancangan sebuah model sistem rekomendasi film menggunakan dataset publik Netflix. Melalui penerapan teknik machine learning, khususnya Content-Based Filtering, proyek ini akan mengembangkan dan mengevaluasi solusi untuk memberikan rekomendasi film yang dipersonalisasi kepada pengguna.
 
-Gomez-Uribe, C. A., & Hunt, N. (2016). The Netflix recommender system: Algorithms, business value, and innovation. ACM Transactions on Management Information Systems (TMIS), 6(4), 1-19. Dapat diakses melalui: [ACM Digital Library](https://dl.acm.org/doi/10.1145/2843948).
+**Referensi**:
+
+Gomez-Uribe, C. A., & Hunt, N. (2015). The Netflix recommender system: Algorithms, business value, and innovation. ACM Transactions on Management Information Systems (TMIS), 6(4), 1-19. https://doi.org/10.1145/2843948
 
 ## Business Understanding
-Bagian ini menguraikan proses klarifikasi masalah, tujuan, dan pendekatan solusi yang akan diimplementasikan untuk proyek ini. 
 
 ### Problem Statements
-Berdasarkan latar belakang yang telah diuraikan, masalah utama yang akan diselesaikan adalah:
 
-* Bagaimana cara membangun sistem yang dapat merekomendasikan film-film dengan konten yang serupa (misalnya, genre, alur cerita, atau pemeran yang sama) dengan film yang disukai pengguna? 
-* Bagaimana perbedaan teknik representasi fitur (vektorisasi teks) dapat memengaruhi kualitas dan karakteristik rekomendasi yang dihasilkan oleh model berbasis konten? 
+Berdasarkan konteks di atas, masalah yang akan diselesaikan dalam proyek ini dirumuskan sebagai berikut:
+- Bagaimana merancang sebuah sistem yang dapat memberikan rekomendasi film kepada pengguna berdasarkan kemiripan konten (seperti genre, deskripsi, sutradara, dan pemeran)?
+- Bagaimana mengevaluasi dan membandingkan dampak dari dua teknik representasi fitur teks yang berbeda terhadap akurasi rekomendasi yang dihasilkan?
 
 ### Goals
-Tujuan dari proyek ini adalah untuk menjawab pernyataan masalah di atas dengan:
 
-* Menciptakan sebuah model sistem rekomendasi yang mampu memberikan rekomendasi film berdasarkan kemiripan konten dari metadata yang tersedia. 
-* Mengembangkan dan membandingkan dua model Content-Based Filtering yang menggunakan teknik vektorisasi berbeda (TF-IDF dan CountVectorizer) untuk memahami dampaknya terhadap hasil rekomendasi.
+Untuk menjawab pernyataan masalah tersebut, tujuan dari proyek ini adalah:
+- Membangun model sistem rekomendasi fungsional menggunakan pendekatan Content-Based Filtering.
+- Menganalisis performa dua model yang dibangun dengan teknik vektorisasi yang berbeda (CountVectorizer dan TF-IDF) untuk menentukan pendekatan yang lebih optimal untuk dataset ini.
 
-### Solution Approach
-Untuk mencapai tujuan tersebut, proyek ini akan mengembangkan dan membandingkan dua model sistem rekomendasi dengan pendekatan Content-Based Filtering, namun menggunakan teknik representasi fitur yang berbeda: 
+### Solution statements
+Untuk mencapai tujuan yang telah ditetapkan, proyek ini akan mengimplementasikan dua solusi berbasis Content-Based Filtering. Kedua solusi ini akan menggunakan alur kerja yang sama namun dibedakan oleh teknik vektorisasi fiturnya:
 
-1. **Content-Based Filtering dengan TF-IDF:** Solusi pertama akan menganalisis metadata film dan menggunakan teknik TF-IDF untuk pembobotan fitur.  Kemiripan antar film akan dihitung menggunakan Cosine Similarity. 
-2. **Content-Based Filtering dengan CountVectorizer:** Solusi kedua akan menggunakan pendekatan yang sama, namun dengan teknik vektorisasi CountVectorizer (Bag of Words) sebagai pembanding untuk menganalisis dampaknya terhadap hasil rekomendasi.
+- Pendekatan A (Bag of Words): Model pertama akan menggunakan CountVectorizer untuk mengubah metadata teks menjadi vektor berdasarkan frekuensi kemunculan kata.
+- Pendekatan B (TF-IDF): Model kedua akan menggunakan TF-IDF Vectorizer untuk memberikan bobot pada kata berdasarkan relevansinya dalam sebuah film dan keunikannya di seluruh dataset.
+
+Perbandingan kedua pendekatan ini akan memberikan wawasan mengenai teknik representasi fitur mana yang lebih efektif untuk kasus ini.
 
 ## Data Understanding
-Pada tahap ini, akan dilakukan eksplorasi mendalam terhadap dataset Netflix Movies and TV Shows untuk memahami karakteristik, distribusi, dan potensi pola yang ada di dalamnya.
 
-**Sumber Dataset:** Dataset ini diperoleh dari platform Kaggle dan dapat diakses melalui tautan berikut: [Netflix Movies and TV Shows](https://www.kaggle.com/datasets/shivamb/netflix-shows).
+Tahap ini berfokus pada eksplorasi dan pemahaman Netflix Movies and TV Shows Dataset yang menjadi dasar proyek ini.
 
-Dataset ini terdiri dari satu file CSV yang berisi 8807 baris data dan 12 kolom. Dari inspeksi awal, diketahui bahwa beberapa kolom seperti `director`, `cast`, dan `country` memiliki nilai yang hilang (missing values). Fitur-fitur utama seperti `title`, `listed_in` (sebagai genre), dan 'description' memiliki data yang lengkap dan akan menjadi dasar utama dalam pembuatan sistem rekomendasi.
+Sumber Dataset: Dataset ini bersumber dari Kaggle dan dapat diakses melalui tautan: [Netflix Movies and TV Shows Dataset]([https://archive.ics.uci.edu/ml/datasets/Restaurant+%26+consumer+data](https://www.kaggle.com/datasets/shivamb/netflix-shows)).
 
-### Deskripsi Variabel
-Berikut adalah deskripsi untuk setiap variabel yang relevan dalam proyek ini:
+Dataset awal terdiri dari 8807 data konten Netflix dengan 12 fitur. Setelah dilakukan pemfilteran untuk hanya menggunakan data film, dataset yang diolah memiliki 6131 baris. Analisis awal menunjukkan adanya nilai yang hilang (missing values) pada beberapa fitur seperti `director` dan `cast`, yang akan ditangani pada tahap persiapan data.
 
-* `show_id`: Nomor identifikasi unik untuk setiap judul.
-* `type`: Tipe konten (Movie atau TV Show).
-* `title`: Judul konten.
-* `director`: Nama sutradara.
-* `cast`: Daftar pemeran utama.
-* `country`: Negara tempat produksi.
-* `date_added`: Tanggal konten ditambahkan ke Netflix.
-* `release_year`: Tahun rilis konten.
-* `rating`: Klasifikasi rating usia (misalnya, TV-MA, PG-13).
-* `duration`: Durasi film (dalam menit) atau jumlah season (untuk TV Show).
-* `listed_in`: Kategori atau genre konten.
-* `description`: Sinopsis atau ringkasan singkat dari alur cerita.
+**Variabel-variabel** pada Netflix Movies and TV Shows dataset adalah sebagai berikut:
+- `show_id`: ID unik untuk setiap konten.
+- `type`: Jenis konten (Movie atau TV Show).
+- `title`: Judul film atau acara TV.
+- `director`: Nama sutradara.
+- `cast`: Daftar nama pemeran.
+- `listed_in`: Kategori genre konten.
+- `description`: Sinopsis singkat cerita.
 
-### Exploratory Data Analysis (EDA)
-**Distribusi Genre Konten**
+**Exploratory Data Analysis (EDA)**
 
-**Insight:** Genre International Movies dan Dramas merupakan kategori yang paling dominan dalam dataset, diikuti oleh Comedies. Ini menunjukkan fokus Netflix pada konten internasional dan narasi drama.
+- Distribusi Genre Konten di Netflix
 
-**Distribusi Rating Konten**
+![Top 15 Genre Konten di Netflix](img/Top-15.png)
 
-**Insight:** Mayoritas konten di Netflix memiliki rating TV-MA (Mature Audience) dan TV-14 (Parents Strongly Cautioned), menandakan bahwa audiens utama platform ini adalah penonton dewasa dan remaja.
+Insight: Visualisasi di atas menunjukkan bahwa kategori International Movies dan Dramas mendominasi katalog Netflix, yang mengindikasikan strategi konten yang berfokus pada pasar global dan cerita berbasis narasi.
+
+- Distribusi Konten Berdasarkan Rating Usia
+
+![Distribusi Konten Berdasarkan Rating Usia](img/rating-usia.png)
+
+Insight: Sebagian besar konten memiliki rating TV-MA (Dewasa) dan TV-14 (Remaja 14+), yang menyiratkan bahwa target audiens utama platform ini adalah kalangan dewasa dan remaja.
 
 ## Data Preparation
-Pada tahap ini, dilakukan proses persiapan data untuk mengubah data mentah menjadi format yang bersih dan siap digunakan untuk pemodelan. Proses ini sangat penting untuk memastikan kualitas dan relevansi fitur yang akan diolah oleh model. Teknik-teknik yang diterapkan meliputi:
+Tahap persiapan data bertujuan untuk mengubah data mentah menjadi dataset yang bersih dan terstruktur untuk pemodelan. Langkah-langkah yang dilakukan adalah sebagai berikut:
 
-1. **Penanganan Nilai yang Hilang:** Integritas data dipastikan dengan mengisi nilai yang hilang pada kolom-kolom kunci seperti `director` dan `cast` dengan string kosong. Pendekatan ini mencegah error pada tahap pemrosesan teks tanpa mengurangi jumlah data.
+1. Penanganan Nilai yang Hilang: Untuk menjaga integritas data dan mencegah error, nilai yang hilang pada kolom-kolom kunci seperti director dan cast diisi dengan string kosong.
+2. Rekayasa Fitur (Feature Engineering): Proses ini berfokus pada pembuatan fitur baru yang komprehensif.
+    - Pembersihan Teks: Spasi pada nama orang (sutradara, pemeran) dan genre dihilangkan untuk memastikan entitas tersebut dianggap sebagai satu token tunggal (misalnya, DavidFincher).
+    - Pembuatan Kolom tags: Fitur-fitur teks yang relevan (genres, description, cast, director) digabungkan menjadi satu kolom tunggal bernama tags. Kolom ini menciptakan representasi konten holistik untuk setiap film, yang menjadi input utama untuk model.
+3. Reset Indeks DataFrame: Setelah melakukan pemfilteran dan persiapan, indeks DataFrame di-reset untuk memastikan urutan yang konsisten dan mencegah IndexError saat pemodelan.
 
-2. **Rekayasa dan Ekstraksi Fitur:** Untuk proyek ini, data difokuskan hanya pada tipe 'Movie'. Fitur-fitur teks yang relevan seperti genre, deskripsi, pemeran, dan sutradara dipilih untuk digabungkan.
+Dengan selesainya tahapan ini, dataset telah siap untuk digunakan dalam proses modeling.
 
-3. **Pembersihan dan Unifikasi Fitur:** Untuk memastikan setiap entitas (seperti nama orang atau genre) diperlakukan sebagai satu token unik, spasi di dalamnya dihilangkan (contoh: 'David Fincher' menjadi 'DavidFincher'). Selanjutnya, semua fitur teks yang relevan—deskripsi, genre, pemeran, dan sutradara—digabungkan menjadi satu kolom komprehensif yang disebut `tags`. Kolom `tags` ini berfungsi sebagai representasi konten holistik untuk setiap film, yang akan menjadi dasar utama bagi model Content-Based Filtering.
+## Modeling
+Tahap ini berfokus pada implementasi dan perbandingan dua model sistem rekomendasi berbasis konten. Pendekatan ini dipilih karena kemampuannya merekomendasikan item berdasarkan atribut intrinsik film, seperti genre dan pemeran, tanpa memerlukan data historis pengguna.
 
-Setelah melalui seluruh tahapan di atas, dataset kini telah siap untuk dilanjutkan ke proses pemodelan.
+**Model 1**: Content-Based Filtering dengan TF-IDF
+Model pertama menggunakan teknik TF-IDF untuk mengubah fitur teks menjadi representasi numerik.
 
-## Modeling and Result
-Pada tahap ini, dilakukan pengembangan model sistem rekomendasi dengan pendekatan Content-Based Filtering. Pendekatan ini dipilih karena dapat memberikan rekomendasi berdasarkan atribut internal dari item (film) itu sendiri, seperti genre, sinopsis, dan pemeran. Dua variasi model dikembangkan untuk mengeksplorasi pengaruh teknik representasi fitur yang berbeda terhadap hasil rekomendasi.
+- Proses: Kolom tags divektorisasi menggunakan TfidfVectorizer, yang memberikan bobot lebih tinggi pada kata-kata yang unik dan signifikan. Selanjutnya, kemiripan antar film dihitung menggunakan metrik Cosine Similarity.
+- Tujuan: Pendekatan ini diharapkan mampu menangkap nuansa konten dengan memberikan penekanan pada fitur-fitur teks yang lebih spesifik.
 
-### Model 1: Content-Based Filtering dengan TF-IDF
-Model pertama memanfaatkan teknik TF-IDF (Term Frequency-Inverse Document Frequency) untuk proses vektorisasi.
+**Model 2**: Content-Based Filtering dengan CountVectorizer (Bag of Words)
+Model kedua menggunakan teknik CountVectorizer sebagai metode alternatif.
 
-1. **Proses:** Kolom `tags` yang berisi gabungan semua fitur teks diubah menjadi matriks vektor numerik. TF-IDF memberikan bobot pada setiap kata berdasarkan frekuensinya dalam sebuah film dan keunikannya di seluruh koleksi film. Setelah itu, metrik Cosine Similarity digunakan untuk menghitung skor kemiripan antara setiap pasang vektor film.
+- Proses: Berbeda dengan TF-IDF, pendekatan ini hanya menghitung frekuensi kemunculan setiap kata dalam kolom tags tanpa pembobotan. Matriks kemiripan juga dihitung menggunakan Cosine Similarity.
+- Tujuan: Model ini dibangun sebagai pembanding untuk melihat apakah representasi fitur yang lebih sederhana sudah cukup efektif untuk kasus ini.
 
-2. **Tujuan:** Model ini bertujuan menghasilkan rekomendasi berdasarkan kemiripan konten yang sudah dibobotkan, di mana kata-kata yang lebih spesifik dan unik memiliki pengaruh lebih besar.
+**Hasil Rekomendasi**
 
-### Model 2: Content-Based Filtering dengan CountVectorizer
-Sebagai alternatif, model kedua dikembangkan menggunakan teknik CountVectorizer (atau Bag of Words).
+Kedua model diuji untuk memberikan rekomendasi film yang mirip dengan 'The Social Network':
 
-1. **Proses:** Sama seperti model pertama, kolom `tags` diubah menjadi matriks vektor. Namun, CountVectorizer hanya menghitung frekuensi kemunculan setiap kata tanpa mempertimbangkan bobot keunikannya. Matriks kemiripan kemudian dihitung menggunakan Cosine Similarity.
+**Rekomendasi dari Model 1 (TF-IDF)**:
 
-2. **Tujuan:** Model ini diimplementasikan sebagai pembanding untuk menganalisis bagaimana representasi fitur yang lebih sederhana (hanya berdasarkan frekuensi) memengaruhi hasil akhir rekomendasi.
+- The Music of Silence
+- Nothing to Lose
+- The End of the Tour
+- Justin Timberlake + the Tennessee Kids
+- Tiffany Haddish: She Ready! From the Hood To Hollywood!
 
-### Hasil Rekomendasi
-Kedua model yang telah dibangun mampu menghasilkan daftar top-5 rekomendasi film berdasarkan judul film yang diberikan sebagai input. Berikut adalah contoh hasil perbandingan untuk film 'The Social Network':
+**Rekomendasi dari Model 2 (CountVectorizer)**:
 
-**Rekomendasi dari Model 1 (TF-IDF):**
+- Nothing to Lose
+- The Music of Silence
+- The End of the Tour
+- Ani... Dr. Kashinath Ghanekar
+- Curtiz
 
-* The Great Hack
-* Steve Jobs
-* The Hater
-* The Circle
-* Inside Job
+**Kelebihan dan Kekurangan Pendekatan**
 
-**Rekomendasi dari Model 2 (CountVectorizer / Bag of Words):**
+**Kelebihan**:
 
-* The Great Hack
-* Steve Jobs
-* The Hater
-* The Circle
-* Inside Job
+1. Independen dari Data Pengguna Lain: Rekomendasi dihasilkan hanya berdasarkan konten, sehingga tidak memerlukan data historis dari pengguna lain.
+2. Rekomendasi Item Niche: Mampu merekomendasikan item yang kurang populer selama memiliki atribut yang relevan.
+3. Interpretasi Mudah: Hasil rekomendasi dapat dijelaskan dengan mudah berdasarkan kesamaan fitur (misalnya, "direkomendasikan karena memiliki sutradara dan genre yang sama").
 
-### Analisis Hasil:
+**Kekurangan**:
 
-Hasil yang identik dari kedua model mengindikasikan bahwa fitur-fitur yang telah direkayasa pada kolom tags (seperti nama pemeran dan sutradara) sangat kuat dan dominan, sehingga pilihan antara teknik vektorisasi TF-IDF dan CountVectorizer tidak menghasilkan perbedaan yang signifikan untuk kasus uji ini.
-
-### Kelebihan dan Kekurangan Pendekatan
-Pendekatan Content-Based Filtering memiliki beberapa kelebihan dan kekurangan sebagai berikut:
-
-**Kelebihan:**
-
-* Tidak Memerlukan Data Pengguna Lain: Efektif tanpa riwayat interaksi pengguna lain.
-
-* Mampu Merekomendasikan Item Spesifik (Niche): Dapat merekomendasikan item yang tidak populer.
-
-* Transparan dan Mudah Dijelaskan: Alasan di balik rekomendasi dapat dijelaskan dengan mudah.
-
-**Kekurangan:**
-
-* Terbatas pada Konten yang Sudah Ada: Cenderung merekomendasikan item yang sangat mirip dan kurang memberikan kejutan (serendipity).
-
-* Ketergantungan pada Kualitas Fitur: Kualitas rekomendasi sangat bergantung pada kelengkapan metadata.
+1. Keterbatasan Penemuan Baru (Serendipity): Cenderung merekomendasikan item yang sangat mirip, sehingga mengurangi kemungkinan pengguna menemukan konten yang benar-benar baru dan berbeda.
+2. Ketergantungan pada Kualitas Metadata: Kinerja model sangat dipengaruhi oleh kelengkapan dan kualitas data fitur yang tersedia.
 
 ## Evaluation
-Evaluasi model dilakukan secara kuantitatif menggunakan metrik Precision.
+Untuk mengukur performa kedua model secara kuantitatif, metrik Precision digunakan.
 
-### Formula dan Cara Kerja
-* **Formula:** `Precision = (Jumlah Film Rekomendasi yang Relevan) / (Jumlah Total Film yang Direkomendasikan)`
+**Formula dan Cara Kerja**
+- Formula: ![precision](img/precision.png)
+- Definisi Relevansi: Dalam konteks proyek ini, sebuah film yang direkomendasikan dianggap "relevan" jika memiliki minimal satu genre yang sama dengan film yang menjadi acuan. Metrik ini dipilih karena selaras dengan tujuan bisnis untuk memberikan rekomendasi yang tematik dan sesuai dengan preferensi genre pengguna.
 
-* **Definisi Relevan:** Sebuah film rekomendasi dianggap "relevan" jika memiliki setidaknya satu genre yang sama dengan film acuan.
+**Hasil Evaluasi**
 
-### Hasil Evaluasi
-Berdasarkan pengujian pada film 'The Social Network' (genre: Dramas), diperoleh hasil sebagai berikut:
+Berdasarkan pengujian pada film 'The Social Network' (genre: Dramas), hasil evaluasi adalah sebagai berikut:
 
-* **Model 1 (TF-IDF):** Memperoleh nilai Precision @5 sebesar 1.00.
+- Model 1 (TF-IDF): Nilai Precision @5 adalah 0.60. Ini berarti 3 dari 5 film yang direkomendasikan memiliki genre yang relevan. Dua rekomendasi lainnya (`Justin Timberlake +...` dan `Tiffany Haddish...`) tidak memiliki irisan genre.
+- Model 2 (CountVectorizer): Nilai Precision @5 adalah 1.00. Ini berarti semua 5 film yang direkomendasikan memiliki genre yang relevan, menunjukkan kinerja yang sempurna pada kasus uji ini.
 
-* **Model 2 (CountVectorizer):** Juga memperoleh nilai Precision @5 sebesar 1.00.
+**Analisis Hasil Evaluasi**:
 
-Nilai 1.00 ini berarti bahwa 5 dari 5 film yang direkomendasikan oleh masing-masing model terbukti relevan. Hasil ini secara kuantitatif membuktikan bahwa kedua model mampu memberikan rekomendasi dengan tingkat presisi yang sangat tinggi.
-
-## Kesimpulan
-Proyek ini telah berhasil mengembangkan sistem rekomendasi film menggunakan pendekatan Content-Based Filtering dengan dua teknik vektorisasi berbeda.  Kedua model menunjukkan kinerja yang kuat dengan nilai presisi 100% pada kasus uji, membuktikan efektivitasnya dalam merekomendasikan film berdasarkan kemiripan konten. Ditemukan juga bahwa rekayasa fitur yang cermat (pembuatan kolom `tags`) memiliki dampak yang sangat signifikan terhadap hasil. Dengan demikian, tujuan proyek untuk menciptakan dan membandingkan model rekomendasi berdasarkan konten telah tercapai dengan baik.
+Model CountVectorizer (Bag of Words) menunjukkan performa yang lebih unggul dalam kasus ini. Hal ini kemungkinan disebabkan karena TF-IDF memberikan bobot yang tidak proporsional pada kata-kata unik (seperti "music" atau "stand-up"), yang menyebabkan rekomendasi dari genre lain muncul. Sebaliknya, CountVectorizer yang fokus pada frekuensi kata berhasil mengidentifikasi kemiripan berdasarkan fitur dominan seperti genre Dramas dan nama sutradara/aktor.
