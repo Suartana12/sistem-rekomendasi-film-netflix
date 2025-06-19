@@ -38,7 +38,7 @@ Perbandingan kedua pendekatan ini akan memberikan wawasan mengenai teknik repres
 
 Tahap ini berfokus pada eksplorasi dan pemahaman Netflix Movies and TV Shows Dataset yang menjadi dasar proyek ini.
 
-Sumber Dataset: Dataset ini bersumber dari Kaggle dan dapat diakses melalui tautan: [Netflix Movies and TV Shows Dataset]([https://archive.ics.uci.edu/ml/datasets/Restaurant+%26+consumer+data](https://www.kaggle.com/datasets/shivamb/netflix-shows)).
+Sumber Dataset: Dataset ini bersumber dari Kaggle dan dapat diakses melalui tautan: [Netflix Movies and TV Shows Dataset](https://www.kaggle.com/datasets/shivamb/netflix-shows)
 
 Dataset awal terdiri dari 8807 data konten Netflix dengan 12 fitur. Setelah dilakukan pemfilteran untuk hanya menggunakan data film, dataset yang diolah memiliki 6131 baris. Analisis awal menunjukkan adanya nilai yang hilang (missing values) pada beberapa fitur seperti `director` dan `cast`, yang akan ditangani pada tahap persiapan data.
 
